@@ -77,6 +77,19 @@ class FireStroreData {
   }
 
 
+   updateCart(String id,CartModel cartModel) async {
+    
+    try {
+      firestore= initedatabase();
+     await firestore.collection(CartCollection).document(id).updateData(cartModel.toJson());
+      }
+     
+    catch (error) {
+      print(error);
+    }
+  }
+
+
 
 
     Future<List<DocumentSnapshot>> getAllCart(String user_id) async {
@@ -135,12 +148,34 @@ class FireStroreData {
 
 
 
+
    Future<String>foundInFavorit(String user_id,String food_id) async {
  
     try {
      firestore= initedatabase();
 
       QuerySnapshot querySnapshot = await firestore.collection(FavoritCollection)
+      .where('user_id',isEqualTo: user_id)
+      .where('food_id',isEqualTo: food_id)
+      .getDocuments();
+     
+     
+      if(querySnapshot.documents.length>0){
+      return querySnapshot.documents[0].documentID;
+    }
+    
+    } catch (error) {
+      print(error);
+    }
+  }
+
+
+     Future<String>foundInCart(String user_id,String food_id) async {
+ 
+    try {
+     firestore= initedatabase();
+
+      QuerySnapshot querySnapshot = await firestore.collection(CartCollection)
       .where('user_id',isEqualTo: user_id)
       .where('food_id',isEqualTo: food_id)
       .getDocuments();

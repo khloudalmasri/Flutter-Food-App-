@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_food_app/Models/CartModel.dart';
 import 'package:flutter_food_app/Models/FavoritModel.dart';
 import 'package:flutter_food_app/Models/FoodModel.dart';
 
@@ -6,6 +7,7 @@ import 'package:flutter_food_app/Models/FoodModel.dart';
 import 'package:flutter_food_app/respository/FoodsClient.dart';
 class MyProvider extends ChangeNotifier{
   List<FoodModel> foods=[];
+   List<CartModel> carts=[];
   List<FavoritModel> favorites=[];
   List<FoodModel> filteredList = [];
 
@@ -21,6 +23,13 @@ class MyProvider extends ChangeNotifier{
       notifyListeners();
   }
 
+   getAllCarts(String user_id) async {
+   
+   carts= await FoodsClient.foodsClient.getAllCarts(user_id);
+   
+      notifyListeners();
+  }
+
     getAllFavorites(String user_id) async {
    
    favorites= await FoodsClient.foodsClient.getAllFavorit(user_id);
@@ -31,6 +40,7 @@ class MyProvider extends ChangeNotifier{
 
 
  setCart_counter(int cart_counter) {
+ 
     this.cart_counter = cart_counter;
     notifyListeners();
   } 

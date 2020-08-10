@@ -18,12 +18,20 @@ class CartCounter extends StatefulWidget{
 class CartCounterState extends State<CartCounter>{
    var qty ;
    CartCounterState({this.qty});
+
+   
   @override
   Widget build(BuildContext context) {
+
+     var provider=Provider.of<MyProvider>(context, listen: false);
+     
+     
     if(qty==null){
       qty=1;
-      Provider.of<MyProvider>(context, listen: false).setCart_counter(qty);
+   
     }
+
+      provider.setCart_counter(qty);
     // TODO: implement build
    return  Center(
                 child: Container(
@@ -47,12 +55,14 @@ class CartCounterState extends State<CartCounter>{
                           if (qty > 1) {
                             setState(() {
                               qty = qty - 1;
-                               Provider.of<MyProvider>(context, listen: false).setCart_counter(qty);
+                             provider.setCart_counter(qty);
+
+                            
                             });
                           }
                         },
                         child: Text(
-                          "-",
+                          " - ",
                           style: TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 25),
                         ),
@@ -64,14 +74,17 @@ class CartCounterState extends State<CartCounter>{
                       ),
                       GestureDetector(
                         onTap: () {
+                          
                           setState(() {
                             qty = qty + 1;
-
-                             Provider.of<MyProvider>(context, listen: false).setCart_counter(qty);
+                          
+                            
+                           provider.setCart_counter(qty);
+                           
                           });
                         },
                         child: Text(
-                          "+",
+                          " + ",
                           style: TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 22),
                         ),
@@ -82,5 +95,8 @@ class CartCounterState extends State<CartCounter>{
    );
   
   }
+
+
+ 
 
 }

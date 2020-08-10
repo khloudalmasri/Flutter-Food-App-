@@ -83,9 +83,11 @@ class Favorites extends StatelessWidget{
               ),
             ),
 
-             favorites.isEmpty?  Center(
+             favorites.isEmpty?  Expanded(
+                            child: Center(
             child: Text('No Favorites'),
-          )
+          ),
+             )
       :
 
      Expanded(

@@ -1,5 +1,6 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_food_app/Models/CartModel.dart';
 import 'package:flutter_food_app/Models/FavoritModel.dart';
 import 'package:flutter_food_app/Models/FoodModel.dart';
 import 'package:flutter_food_app/respository/FireStroreData.dart';
@@ -25,11 +26,14 @@ class FoodsClient {
   }
 
 
-  //  checfound(String user_id,String food_id) async {
-  //     bool found=  await FireStroreData.databseFireStore.foundInFavorit(user_id,food_id);
+      Future<List<CartModel>> getAllCarts(String user_id) async {
+    List<DocumentSnapshot> documents = await FireStroreData.databseFireStore.getAllCart(user_id);
+    List<CartModel> carts = documents.map((e) => CartModel.fromDocumentSnapshot(e)).toList();
+    return carts;
+  }
 
-  //     return found;
-  //  }
+
+ 
 
   
 }

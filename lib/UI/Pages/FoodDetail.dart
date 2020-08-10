@@ -28,7 +28,9 @@ class _FoodDetailState extends State<FoodDetail> {
 
   ContainerTransitionType _transitionType = ContainerTransitionType.fade;
    bool isfound=false;
+   bool cartfound=false;
    String fav_id;
+     String cart_id;
    
 
    
@@ -48,6 +50,15 @@ class _FoodDetailState extends State<FoodDetail> {
       if(value!=null){
       fav_id=value;
        isfound=true;
+      }
+  
+       }) ;
+
+
+    check_foundCart().then((value){
+      if(value!=null){
+      cart_id=value;
+       cartfound=true;
       }
   
        }) ;
@@ -234,27 +245,36 @@ class _FoodDetailState extends State<FoodDetail> {
           closedColor: Colors.amber[300],
           openShape: const RoundedRectangleBorder(),
           closedBuilder: (BuildContext context, VoidCallback openContainer) {
+           
             return  SizedBox(
       height: _fabDimension,
       width: _fabDimension,
-      child: Center(
-        child: Icon(
-             Icons.shopping_cart,
-             color: Colors.black,
+      child: InkWell(
+        onTap: () {
+          var now = new DateTime.now().toString();
+           openContainer();
+         
+          if(cartfound){
+           CartModel cartModel=CartModel(cart_id, SPHelper.getString(userId), widget.foodData.id, now, 0, widget.foodData.name, widget.foodData.description, widget.foodData.price, widget.foodData.image,   Provider.of<MyProvider>(context, listen: false).cart_counter);
+           FireStroreData.databseFireStore.updateCart(cart_id,cartModel);
+         }else{
+
+           CartModel cartModel=CartModel('', SPHelper.getString(userId), widget.foodData.id, now, 0, widget.foodData.name, widget.foodData.description, widget.foodData.price, widget.foodData.image,   Provider.of<MyProvider>(context, listen: false).cart_counter);
+           FireStroreData.databseFireStore.addToCart(cartModel);
+         }
+          
+        },
+              child: Center(
+          child: Icon(
+               Icons.shopping_cart,
+               color: Colors.black,
+          ),
         ),
       ),
                  );
           }, 
-          
-       
-        
-         openBuilder:(context, action) {
-            
+             openBuilder:(context, action) {
          
-         
-            
-          //  CartModel cartModel=CartModel('', SPHelper.getString(userId), widget.foodData.id, 'time', 0, widget.foodData.name, widget.foodData.description, widget.foodData.price, widget.foodData.image,   Provider.of<MyProvider>(context, listen: false).cart_counter);
-          // FireStroreData.databseFireStore.addToCart(cartModel);
            return Cart();
          },
         ),
@@ -269,6 +289,14 @@ class _FoodDetailState extends State<FoodDetail> {
      
      
    return id;
+
+  }
+
+
+  
+   Future<String> check_foundCart() async {
+     String id=await FireStroreData.databseFireStore.foundInCart(SPHelper.getString(userId),widget.foodData.id);
+      return id;
 
   }
 }
