@@ -6,11 +6,13 @@ import 'package:flutter_food_app/Models/FoodModel.dart';
 import 'package:flutter_food_app/Providers/MyProvider.dart';
 import 'package:flutter_food_app/UI/Pages/FoodDetail.dart';
 import 'package:flutter_food_app/UI/Widgets/CartWidget.dart';
+import 'package:flutter_food_app/UI/Widgets/orderWidget.dart';
 import 'package:flutter_food_app/constants.dart';
 import 'package:flutter_food_app/respository/SPHelper.dart';
 import 'package:provider/provider.dart';
 
 class Cart extends StatelessWidget{
+ var provider;
   @override
   Widget build(BuildContext context) {
     
@@ -29,17 +31,24 @@ class Cart extends StatelessWidget{
   //   // CartModel(
   //   //     "Roti", "With Veg Gravy",  "40.00", "assets/images/roti.png",4),
   // ];
-   Provider.of<MyProvider>(context, listen: false).getAllCarts(SPHelper.getString(userId));
+   Provider.of<MyProvider>(context, listen: false).getAllCarts(SPHelper.getString(userId),0);
    Provider.of<MyProvider>(context, listen: false).getAllFoods();
+    provider=Provider.of<MyProvider>(context, listen: false);
+   
     // TODO: implement build
     return  Consumer<MyProvider>(
       builder: (context, value, child) {
 
         List<CartModel>  carts = value.carts;
+
+
+
     return Scaffold(
       backgroundColor: Colors.white,
+      bottomSheet: orderWidget(total: 0,),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        
+        padding:  EdgeInsets.all(20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
@@ -92,7 +101,9 @@ class Cart extends StatelessWidget{
      Expanded(
            child: ListView.builder(
                   itemCount: carts.length,
+                  
                   itemBuilder: (BuildContext context, int index) {
+                    
      return animatedContainer(carts[index]);
                           }, 
                           ),
@@ -106,6 +117,7 @@ class Cart extends StatelessWidget{
 
           ]
         )
+     
       )
        );  });
   }
@@ -127,6 +139,11 @@ class Cart extends StatelessWidget{
       closedBuilder: (BuildContext _, VoidCallback openContainer) {
         return SizedBox(
           child: InkWell(
+          
+            
+            onLongPress: () {
+              provider.setCart_isselected(!provider.isselected);
+            },
             onTap: openContainer,
             child:  Dismissible(
                 direction: DismissDirection.endToStart,

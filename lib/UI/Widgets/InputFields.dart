@@ -4,8 +4,9 @@ class InputFieldArea extends StatelessWidget {
   final String hint;
   final bool obscure;
   final IconData icon;
+ final TextInputType keyboardType;
   final TextEditingController textEditingController;
-  InputFieldArea({this.hint, this.obscure, this.icon,this.textEditingController});
+  InputFieldArea({this.hint, this.obscure, this.icon,this.textEditingController, this.keyboardType});
   @override
   Widget build(BuildContext context) {
     return  Container(
@@ -21,7 +22,7 @@ class InputFieldArea extends StatelessWidget {
       child: new TextFormField(
         validator: (val) => val.isEmpty ? "Enter $hint ":null,
         controller:textEditingController,
-        keyboardType: hint=='Email'?TextInputType.emailAddress:TextInputType.visiblePassword,
+        keyboardType: keyboardType,
         obscureText: obscure,
         style: const TextStyle(
           color: Colors.white,

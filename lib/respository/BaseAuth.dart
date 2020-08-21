@@ -3,6 +3,9 @@
 
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_food_app/Models/UserModel.dart';
+import 'package:flutter_food_app/constants.dart';
+import 'package:flutter_food_app/respository/FireStroreData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BaseAuth{
@@ -50,6 +53,15 @@ SharedPreferences prefs;
     AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
     FirebaseUser user = result.user;
+
+    if(user!=null){
+   UserModel userModel=await FireStroreData.databseFireStore.getuserdata(user.uid);
+
+
+       prefs.setString(spUserAddress,userModel.address);
+        prefs.setString(spUserName,userModel.name);
+        prefs.setString(spUserPhone,userModel.phone);
+    }
       return user.uid;
   } 
   
@@ -82,6 +94,11 @@ SharedPreferences prefs;
     AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password,);
     FirebaseUser user = result.user;
+ 
+
+  
+   
+
 
     return user.uid;
      } 

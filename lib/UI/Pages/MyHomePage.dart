@@ -7,16 +7,22 @@ import 'package:flutter_food_app/UI/Pages/FoodDetail.dart';
 import 'package:flutter_food_app/UI/Pages/my_profile.dart';
 import 'package:flutter_food_app/UI/Widgets/FoodWidgets.dart';
 import 'package:flutter_food_app/UI/Widgets/drawer.dart';
+import 'package:flutter_food_app/constants.dart';
+import 'package:flutter_food_app/respository/BaseAuth.dart';
 import 'package:flutter_inner_drawer/inner_drawer.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_food_app/respository/FireStroreData.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class MyHomePage extends StatelessWidget{
 
       final GlobalKey<InnerDrawerState> _innerDrawerKey = GlobalKey<InnerDrawerState>();    
-
+LatLng currentlocation;
+   SharedPreferences prefs;
 
   
    String filter = "";
@@ -28,6 +34,8 @@ class MyHomePage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+
+    getCuruntLocation();
     
 
 //      List<FoodModel> foods = [
@@ -315,6 +323,24 @@ class MyHomePage extends StatelessWidget{
       direction: InnerDrawerDirection.start 
        );
     }
+
+
+
+    getCuruntLocation() async {
+    prefs = await BaseAuth.baseAuth.instializeSp();
+  try{
+  Position position= await Geolocator().getCurrentPosition();
+  currentlocation=LatLng(position.latitude,position.longitude);
+  if(currentlocation!=null){
+     prefs.setString(latt,position.latitude.toString());
+      prefs.setString(lont,position.longitude.toString());
+  }
+  
+  }catch(error){
+    print(error);
+  }
+
+}
 
 
     

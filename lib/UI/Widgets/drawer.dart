@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/UI/Pages/Cart.dart';
 import 'package:flutter_food_app/UI/Pages/Favorites.dart';
+import 'package:flutter_food_app/UI/Pages/MapPage.dart';
 import 'package:flutter_food_app/UI/Pages/welcome.dart';
 import 'package:flutter_food_app/UI/Widgets/SharedPreferencesBuilder.dart';
 import 'package:flutter_food_app/constants.dart';
 import 'package:flutter_food_app/respository/BaseAuth.dart';
 import 'package:flutter_food_app/respository/SPHelper.dart';
+import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -73,6 +75,16 @@ class drawer extends StatelessWidget{
                     ),
              
                   ListTile(
+                    onTap: () {
+                       Navigator.pop(context);
+                      Navigator.push(
+                  context,
+                  MaterialPageRoute(
+
+                    builder: (BuildContext context) => MapPage(),
+                  ),
+                );
+                    },
 
                     title: Text(
                       "Maps",
@@ -124,6 +136,15 @@ class drawer extends StatelessWidget{
                     ),
                   ),
                   ListTile(
+                    onTap: () {
+                      Navigator.pop(context);
+                      final RenderBox box = context.findRenderObject();
+                              Share.share('check out my app https://github.com/khloudalmasri/Flutter-Food-App-',
+                                  subject: 'Food House',
+                                  sharePositionOrigin:
+                                      box.localToGlobal(Offset.zero) &
+                                          box.size);
+                    },
                     title: Text(
                       "Share",
                       style: TextStyle(fontSize: 14),

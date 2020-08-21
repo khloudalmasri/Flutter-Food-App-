@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/UI/Widgets/list_tile.dart';
+import 'package:flutter_food_app/constants.dart';
+import 'package:flutter_food_app/respository/SPHelper.dart';
 import 'package:flutter_food_app/styles/grey_text_style.dart';
 
 
@@ -57,6 +59,8 @@ class _MyProfileState extends State<MyProfile> {
                     height: 12,
                   ),
                   Row(
+                    
+
                     children: <Widget>[
                       new Container(
                           width: 50.00,
@@ -72,24 +76,30 @@ class _MyProfileState extends State<MyProfile> {
                       SizedBox(
                         width: 25,
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Dinesh Kumar",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w500),
+                      Flexible(
+                           child: Column(
+                         mainAxisAlignment: MainAxisAlignment.center,
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         children: <Widget>[
+                           Text(
+                             SPHelper.prefs.getString(spUserName),
+                             style: TextStyle(
+                                 fontSize: 20, fontWeight: FontWeight.w500),
+                           ),
+                           Text(
+                             SPHelper.prefs.getString(spUserEmail),
+                             style: GreyText,
+                           ),
+                           Text(
+
+                            
+                             
+                             "User ID: ${SPHelper.prefs.getString(userId)}",
+                             
+                              style: GreyText,
+                           ),
+                         ],
                           ),
-                          Text(
-                            "dineshkumar315007@gmail.com",
-                            style: GreyText,
-                          ),
-                          Text(
-                            "User ID: 156A860",
-                            style: GreyText,
-                          ),
-                        ],
                       )
                     ],
                   ),

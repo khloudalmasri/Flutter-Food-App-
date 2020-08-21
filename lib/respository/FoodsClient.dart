@@ -26,8 +26,8 @@ class FoodsClient {
   }
 
 
-      Future<List<CartModel>> getAllCarts(String user_id) async {
-    List<DocumentSnapshot> documents = await FireStroreData.databseFireStore.getAllCart(user_id);
+      Future<List<CartModel>> getAllCarts(String user_id,int sold) async {
+    List<DocumentSnapshot> documents = await FireStroreData.databseFireStore.getAllCart(user_id,sold);
     List<CartModel> carts = documents.map((e) => CartModel.fromDocumentSnapshot(e)).toList();
     return carts;
   }

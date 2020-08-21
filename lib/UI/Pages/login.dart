@@ -40,6 +40,7 @@ class LoginPage extends StatelessWidget {
                          AppLogo(),
                       InputFieldArea(
                         textEditingController: email_control,
+              keyboardType: TextInputType.emailAddress,
                         hint: "Email",
                         obscure: false,
                         icon: Icons.person_outline,
@@ -47,6 +48,8 @@ class LoginPage extends StatelessWidget {
                       InputFieldArea(
                         textEditingController: password_control,
                       hint: "Password",
+                    keyboardType: TextInputType.visiblePassword,
+
                       obscure: true,
                       icon: Icons.lock_outline,
                         ),
@@ -98,6 +101,7 @@ class LoginPage extends StatelessWidget {
           prefs.setString(spUserEmail, email_control.text);
         prefs.setString(userId,user_id);
         prefs.setBool(isLogged, true);
+        prefs.setString(spUserPassword,password_control.text);
        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => MyHomePage()), (Route<dynamic> route) => false);
 
 

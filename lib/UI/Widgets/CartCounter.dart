@@ -1,23 +1,29 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/Providers/MyProvider.dart';
+import 'package:flutter_food_app/respository/FireStroreData.dart';
 import 'package:provider/provider.dart';
 
 class CartCounter extends StatefulWidget{
   var qty;
-  CartCounter({this.qty});
+  bool iscart;
+  String cart_id;
+  CartCounter({this.qty,this.iscart,this.cart_id});
 
 
   @override
   State<StatefulWidget> createState() {
     // TODO: implement createState
-   return CartCounterState(qty: qty);
+   return CartCounterState(qty: qty,iscart: iscart, cart_id: cart_id);
   }
 }
 
 class CartCounterState extends State<CartCounter>{
    var qty ;
-   CartCounterState({this.qty});
+    bool iscart;
+  String cart_id;
+
+   CartCounterState({this.qty,this.iscart,this.cart_id});
 
    
   @override
@@ -56,7 +62,8 @@ class CartCounterState extends State<CartCounter>{
                             setState(() {
                               qty = qty - 1;
                              provider.setCart_counter(qty);
-
+                          if(iscart){ FireStroreData.databseFireStore.updateitemCartquntity(cart_id,qty);
+}
                             
                             });
                           }
@@ -80,6 +87,9 @@ class CartCounterState extends State<CartCounter>{
                           
                             
                            provider.setCart_counter(qty);
+                          if(iscart){ FireStroreData.databseFireStore.updateitemCartquntity(cart_id,qty);
+}
+
                            
                           });
                         },

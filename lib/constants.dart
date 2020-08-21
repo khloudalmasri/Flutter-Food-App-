@@ -1,6 +1,23 @@
+import 'package:flutter_food_app/respository/BaseAuth.dart';
+import 'package:flutter_food_app/respository/SPHelper.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+final String UsersCollection = 'Users';
 final String FoodsCollection = 'Foods';
 final String FavoritCollection = 'Favorites';
 final String CartCollection = 'Carts';
-final String spUserEmail = 'userEmail';
+final String spUserEmail = 'userName';
+final String spUserName = 'userEmail';
+final String spUserPhone = 'userPhone';
+final String spUserAddress = 'userAddress';
+final String spUserPassword = 'userPassword';
 final String userId = 'userId';
+final String latt = 'latt';
+final String lont = 'lont';
 final String isLogged = 'isLogged';
+const double CAMERA_ZOOM = 12;
+const double CAMERA_TILT = 0;
+const double CAMERA_BEARING = 30;
+final LatLng SOURCE_LOCATION = LatLng(31.5242482, 34.5176553);
+final LatLng DEST_LOCATION = LatLng(double.parse(SPHelper.getString(latt)) ,double.parse(SPHelper.getString(lont)));

@@ -158,7 +158,7 @@ class _FoodDetailState extends State<FoodDetail> {
                 height: 20,
               ),
 
-              CartCounter()  ,
+              CartCounter(iscart: false,)  ,
               SizedBox(
                 height: 20,
               ),

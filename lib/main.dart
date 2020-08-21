@@ -5,6 +5,8 @@ import 'package:flutter_food_app/UI/Pages/MyHomePage.dart';
 import 'package:flutter_food_app/UI/Pages/welcome.dart';
 import 'package:flutter_food_app/constants.dart';
 import 'package:flutter_food_app/respository/BaseAuth.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,12 +19,15 @@ Future<void> main() async {
 
 class MyApp extends StatelessWidget {
  final Widget home;
+ 
 
   MyApp({this.home});
  
   
   @override
   build(BuildContext context)   {
+
+  
   SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
 
     return  MultiProvider(

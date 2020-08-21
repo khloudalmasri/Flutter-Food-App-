@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_food_app/Models/CartModel.dart';
 import 'package:flutter_food_app/Models/FavoritModel.dart';
 import 'package:flutter_food_app/Models/FoodModel.dart';
+import 'package:flutter_food_app/respository/FireStroreData.dart';
 
 
 import 'package:flutter_food_app/respository/FoodsClient.dart';
@@ -10,8 +11,13 @@ class MyProvider extends ChangeNotifier{
    List<CartModel> carts=[];
   List<FavoritModel> favorites=[];
   List<FoodModel> filteredList = [];
+  List<CartModel> selectedcart=[];
 
   int cart_counter=1;
+  double cart_total=0;
+  bool isselected=false;
+
+   
    
 
 
@@ -23,9 +29,9 @@ class MyProvider extends ChangeNotifier{
       notifyListeners();
   }
 
-   getAllCarts(String user_id) async {
+   getAllCarts(String user_id,int sold) async {
    
-   carts= await FoodsClient.foodsClient.getAllCarts(user_id);
+   carts= await FoodsClient.foodsClient.getAllCarts(user_id,sold);
    
       notifyListeners();
   }
@@ -43,7 +49,42 @@ class MyProvider extends ChangeNotifier{
  
     this.cart_counter = cart_counter;
     notifyListeners();
+  }
+
+   setCart_total(double cart_total) {
+ 
+    this.cart_total = cart_total;
+    notifyListeners();
+  }  
+
+
+    setCart_isselected(bool isselected) {
+ 
+    this.isselected = isselected;
+    notifyListeners();
   } 
+
+
+
+    setCart_selected(CartModel cart_item) {
+     
+     this.selectedcart.add(cart_item);
+     addTotatal();
+
+    notifyListeners();
+  } 
+
+
+    removeCart_selected(CartModel cart_item) {
+ 
+    this.selectedcart.removeAt(this.selectedcart.indexOf(cart_item));
+     addTotatal();
+    notifyListeners();
+  } 
+
+
+
+  
   filteredfoodList(String filter){
      filteredList.clear();
       if((filter.isNotEmpty)) {
@@ -58,6 +99,39 @@ class MyProvider extends ChangeNotifier{
     notifyListeners();
     }
 
+
+    addTotatal(){
+       this.cart_total=0; 
+       if((this.selectedcart.isNotEmpty)) {
+        this.cart_total=0; 
+      for(int i = 0; i < this.selectedcart.length; i++) {
+       this.cart_total=this.cart_total + double.parse(this.selectedcart[i].price)*this.selectedcart[i].quantity;
+}}
    
+    }
+
+
+////////////cart update soloid when get cart
+ order()  {
+     
+       if((this.selectedcart.isNotEmpty)) {
+     
+      for(int i = 0; i < this.selectedcart.length; i++) {
+     
+        FireStroreData.databseFireStore.updateitemCartsolid(this.selectedcart[i].id);
+    
+    
+}
+
+this.selectedcart.clear();
+addTotatal();
+notifyListeners();
 
 }
+   
+    }
+ 
+    }
+
+   
+
